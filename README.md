@@ -12,4 +12,4 @@ This project was created to produce a random password generator using javaScript
 * [Repository Link](https://github.com/Demsley1/Password-Generator.git)
 
 ## Screenshots
-![password-generator-top](./Develop\images\password-generator.png)
+![password-generator-top](./Develop/images/password-generator.png)
