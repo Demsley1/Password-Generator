@@ -93,10 +93,8 @@ function getUserOptions() {
   var clickConfirm = window.confirm("Would you like to create a new random password?");
   if(clickConfirm) {
     alert("Let's get started then");
-    // for create length function i am going to set a while loop that iterates through each array asking for a random value filling a new array, < less the value determined already from the funciton.
-    createLength();
-    // run each funcion and set the value for the function to equal a new variable.
-
+    
+    // run each function and set the value for the function to equal a new variable.
     var upperCaseValue = upperCaseChar();
     var lowerCaseValue = lowerCaseChar();
     var specialCharValue = specialChar();
@@ -109,10 +107,7 @@ function getUserOptions() {
       numericCharacter: numericCharValue, 
       specialCharacter: specialCharValue, 
       lowerCase: lowerCaseValue,
-      randomIndex: function call(min, max) {
-        return Math.floor(Math.random()*(max - min) ) + min;
-      }
-    };
+    }
 
     console.log(options);
     return options;
@@ -126,14 +121,12 @@ function getUserOptions() {
 Funciton serves as template for every function that will ask for inclusion of that character from the matching array. 
 Possible redundancy in code and time permitting will be changed once you have a working model set-up. */
 function upperCaseChar() {
-  var upCase = prompt("would you like the password to include Uppercase characters. Type 'Yes' or 'No' for answer.");
-  if (upCase == 'YES' || upCase == 'yes') {
-    upCase = true; 
+  var upCase = confirm("would you like the password to include Uppercase characters. Type 'Yes' or 'No' for answer.");
+  if (upCase) {
     console.log(" password has uppercase included " + upCase);
-    return upCase;
+    return upperCasedCharacters;
   }
-  else if (upCase == 'NO' || upCase == 'no') {
-    upCase = false;
+  else if (upCase == false) {
     console.log("no uppercase included for password");
     return upCase;
   }
@@ -144,14 +137,12 @@ function upperCaseChar() {
 }
 
 function lowerCaseChar() {
-  var lowCase = prompt("would you like the password to include Lowercase characters. Type 'Yes' or 'No' for answer.");
-  if (lowCase == 'YES' || lowCase == 'yes') {
-    lowCase = true; 
+  var lowCase = confirm("would you like the password to include Lowercase characters. Type 'Yes' or 'No' for answer.");
+  if (lowCase) {
     console.log(" password has lowercase included " + lowCase);
-    return lowCase;
+    return lowerCasedCharacters;
   }
-  else if (lowCase == 'NO' || lowCase == 'no') {
-    lowCase = false;
+  else if (lowCase == false) {
     console.log("no lowercase included for password");
     return lowCase;
   }
@@ -162,14 +153,12 @@ function lowerCaseChar() {
 }
 
 function specialChar() {
-  var specChar = prompt("would you like the password to include special characters. Type 'Yes' or 'No' for answer.");
-  if (specChar == 'YES' || specChar == 'yes') {
-    specChar = true; 
+  var specChar = confirm("would you like the password to include special characters. Type 'Yes' or 'No' for answer.");
+  if (specChar) {
     console.log(" password has special character included " + specChar);
-    return specChar;
+    return specialCharacters;
   }
-  else if (specChar == 'NO' || specChar == 'no') {
-    specChar = false;
+  else if (specChar == false) {
     console.log("no special character included for password");
     return specChar;
   }
@@ -180,14 +169,12 @@ function specialChar() {
 }
 
 function numericChar() {
-  var numChar = prompt("would you like the password to include numeric characters. Type 'Yes' or 'No' for answer.");
-  if (numChar == 'YES' || numChar == 'yes') {
-    numChar = true; 
+  var numChar = confirm("would you like the password to include numeric characters. Type 'Yes' or 'No' for answer.");
+  if (numChar) {
     console.log(" password has numeric character included " + numChar);
-    return numChar;
+    return numericCharacters;
   }
-  else if (numChar == 'NO' || numChar == 'no') {
-    numChar = false;
+  else if (numChar == false) {
     console.log("no numeric character included for password");
     return numChar;
   }
@@ -225,61 +212,73 @@ function writePassword() {
 
 function generatePassword() {
   var UserOptions = getUserOptions();
-  // trying to create while loop using number value in creatLength function as a paramater in the while expresion, currently just re-runs the aforementined function again and ends the script so it wont start the switch statements and create the array housing elements of created password.
   var arraySize = createLength();
-  // create a while loop that iterates through each array depending on the values in the options object.
-  while (generatePassword.length < arraySize) {
-    switch (UserOptions.upperCase === true) {
-      case true:
-      function generate(min, max) {
-        return Math.floor(Math.random()*(max - min) ) + min;
-      }
-      var first = generate(0, 26);
-      var firstNum = upperCasedCharacters[first];
-      default:
-        !generate();
-    }
-    switch (UserOptions.lowerCase === true) {
-      case true:
-      function generate(min, max) {
-        return Math.floor(Math.random()*(max - min) ) + min;
-      }
-      var second = generate(0, 26);
-      var secondNum = lowerCasedCharacters[second];
-      default:
-        !generate();
-    }
-    switch (UserOptions.numericCharacter == true) {
-      case true:
-      function generate(min, max) {
-        return Math.floor(Math.random()*(max - min) ) + min;
-      }
-      var third = generate(0, 10);
-      var thirdNum = numericCharacters[third];
-      default:
-        !generate();
-    }
-    switch (UserOptions.specialCharacter == true) {
-      case true:
-      function generate(min, max) {
-        return Math.floor(Math.random()*(max - min) ) + min;
-      }
-      var fourth = generate(0, 23);
-      var fourthNum = specialCharacters[fourth];
-      default: 
-      !generate();
-    }
-  } 
-  
-  // going to have to fix code to not accept or use a value if not-defined/undefined. If calue is not defined hopeflly not take up space in string for array.
-  // then bring all values in array out of array and if in string form out of string, then append into text, to show up in the box.
-  passwordGenerate = [];
-  passwordGenerate.push(firstNum, secondNum, thirdNum, fourthNum);
+  var charset = (JSON.stringify(UserOptions));
+  arrayValue = "";
+  for (var i = 0, n = charset.length; i < arraySize; i++) {
+    arrayValue += charset.charAt(Math.floor(Math.random() * n));
+  }
+  return arrayValue;
 
-  console.log(passwordGenerate);
 }
 
 // Add event listener to generate button
 generateBtn.addEventListener("click", writePassword);
 
 /* method: create an empty array for each user generated password, then push() the chars in up to a certain length which is a breakpoint that is determined from a function asking for length of password. */
+// change the fuctions that ask each question to a window confirm to get true or false value in each function.
+// then use math.random method in each funciton to get the random array value for use.
+
+/* function generate(min, max) {
+  return Math.floor(Math.random()*(max - min) ) + min;
+}
+
+// create a while loop that iterates through each array depending on the values in the options object.
+// while loop is working, but needs to run once for each variable then constanly push that variable into an ever growing array.
+// only way to read whole string of array values is if all values are being pushed at once 
+while (i < arraySize) {
+  switch (UserOptions.upperCase === true) {
+    case true:
+    function generate(min, max) {
+      return Math.floor(Math.random()*(max - min) ) + min;
+    }
+    var first = generate(0, 26);
+    upperCasedCharacters[first];
+    default:
+      !generate();
+  }
+  switch (UserOptions.lowerCase === true) {
+    case true:
+    function generate(min, max) {
+      return Math.floor(Math.random()*(max - min) ) + min;
+    }
+    var second = generate(0, 26);
+    lowerCasedCharacters[second];
+    default:
+      !generate();
+  }
+  switch (UserOptions.numericCharacter == true) {
+    case true:
+    function generate(min, max) {
+      return Math.floor(Math.random()*(max - min) ) + min;
+    }
+    var third = generate(0, 10);
+    numericCharacters[third];
+    default:
+      !generate();
+  }
+  function specialCharacter(){
+    if (UserOptions.specialCharacter == true) {
+      var fourth = generate(0, 23);
+      specialCharacters[fourth];
+    }
+    else {}
+  }
+    
+ //  var wicked = []
+ console.log(specialCharacter(),)
+ //  console.log(wicked);
+  i++;
+}
+// going to have to fix code to not accept or use a value if not-defined/undefined. If calue is not defined hopeflly not take up space in string for array.
+// then bring all values in array out of array and if in string form out of string, then append into text, to show up in the box. */
