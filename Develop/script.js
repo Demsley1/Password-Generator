@@ -193,12 +193,41 @@ function generatePassword() {
   var UserOptions = getUserOptions();
   var arraySize = createLength();
 
-   var charset = (JSON.stringify(UserOptions));
-  arrayValue = "";
-  for (var i = 0, n = charset.length; i < arraySize; i++) {
-    arrayValue += charset.charAt(Math.floor(Math.random() * n));
+  var paswordArray = [];
+  var potentialChars = [];  
+  var mustHaveChars = [];
+  
+
+  if (UserOptions.upperCase === true) {
+    var upValue = Math.floor(Math.random()* 26);
+    var pushUp = upperCasedCharacters[upValue];
+    mustHaveChars.push(pushUp);
   }
-  return arrayValue;
+  if (UserOptions.lowerCase === true) {
+    var lowValue = Math.floor(Math.random()* 26);
+    var pushLow = lowerCasedCharacters[lowValue];
+    mustHaveChars.push(pushLow);
+  }
+  if (UserOptions.numericCharacter === true) {
+    var numValue = Math.floor(Math.random()* 10);
+    var pushNum = numericCharacters[numValue];
+    mustHaveChars.push(pushNum);
+  }
+  if (UserOptions.specialCharacter === true) {
+    var specValue = Math.floor(Math.random()* 23);
+    var pushSpec = specialCharacters[specValue];
+    mustHaveChars.push(pushSpec);
+  }
+
+  let integerPush = "";
+  for (let i = 0; i < arraySize; i++) {
+    integerPush = i;
+    potentialChars.push(integerPush);
+  }
+  console.log(mustHaveChars);
+  console.log(potentialChars);
+
+
 
 }
 
