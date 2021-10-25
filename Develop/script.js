@@ -87,7 +87,6 @@ var upperCasedCharacters = [
   'Z'
 ];
 
-// all options in this function are supposed to work to deliver a template for the object that wil be used to determine what array is being pulled from or not. 
 function getUserOptions() {
   // Ask user if they would like to continue and proceed if yes
   var clickConfirm = window.confirm("Would you like to create a new random password?");
@@ -95,26 +94,42 @@ function getUserOptions() {
     alert("Let's get started then");
 
     // Use the retrieved variable values and input them all into a options object that should serve as the template for the selections to iterate each value in password.
-    // create a function for each variable in object that is a math random method to get a random index position that attributes to that value.
-    let options = {
-      upperCase: upperCaseChar(),
-      numericCharacter: numericChar(),
-      specialCharacter: specialChar(), 
-      lowerCase: lowerCaseChar(),
+    var uppCaseValue =  upperCaseChar();
+    var lowCaseValue = lowerCaseChar();
+    var numCharValue = numericChar();
+    var specCharValue = specialChar();
+    
+    
+    var options = {
+      upperCase: uppCaseValue,
+      numericCharacter: numCharValue,
+      specialCharacter: specCharValue,
+      lowerCase: lowCaseValue,
     }
-
+    // Need to set a conditional statement so that when the parameter of all var's returning a boolean value of false, then it should re-run the funciton and alert user to choose true for at least one option.
+    /* if (Object.keys(options).every((k) => !options[k])) {
+          alert("You need to choose ok for at least one option to continue");
+          getUserOptions();
+        }
+      // Causes it to give undefined for each property of the object after the function is re-run to get a true value.
+      if (uppCaseValue || specCharValue || lowCaseValue || numCharValue) {}
+      else {
+      alert ("you need to select ok to at least one option");
+      getUserOptions();
+      } 
+     */
     console.log(options);
-    return options;
+    return options; 
   }
+  // should stop all functions from executing after this condition is activated
   else {
     alert("Have a nice day.");
     return;
   }
 }
 
-/* Used uppercase value funciton to ask and return value for prompt of uppercase character inclusion that will be turned a boolean value. 
-Funciton serves as template for every function that will ask for inclusion of that character from the matching array. 
-Possible redundancy in code and time permitting will be changed once you have a working model set-up. */
+/* each function pertaining to the chracter arrays is essentially identical except for portions that are unique to that variable. 
+  I attempted to shorten or condense functions into one but kept running into issues.*/
 function upperCaseChar() {
   var upCase = confirm ("would you like the password to include Uppercase characters.");
   switch (upCase) {
@@ -193,41 +208,55 @@ function generatePassword() {
   var UserOptions = getUserOptions();
   var arraySize = createLength();
 
-  var paswordArray = [];
+  var passwordArray = [];
   var potentialChars = [];  
   var mustHaveChars = [];
   
+  // loop to add each element according to conditional statement up until chosen size of array.
+  while ( mustHaveChars.length < (arraySize - 1)) {
+    if (UserOptions.upperCase === true) {
+      // ex: var case to get random index number for array, then picks and pushes random char from global array into new consolidated array based on chosen chars.
+      var upValue = Math.floor(Math.random()* 26);
+      var onePush = upperCasedCharacters[upValue];
+      mustHaveChars.push(onePush);
+    }
+    if (UserOptions.lowerCase === true) {
+      var lowValue = Math.floor(Math.random()* 26);
+      var onePush = lowerCasedCharacters[lowValue];
+      mustHaveChars.push(onePush);
+    }
+    if (UserOptions.numericCharacter === true) {
+      var numValue = Math.floor(Math.random()* 10);
+      var onePush = numericCharacters[numValue];
+      mustHaveChars.push(onePush);
+    }
+    if (UserOptions.specialCharacter === true) {
+      var specValue = Math.floor(Math.random()* 23);
+      var onePush = specialCharacters[specValue];
+      mustHaveChars.push(onePush);
+    }
+  }
 
-  if (UserOptions.upperCase === true) {
-    var upValue = Math.floor(Math.random()* 26);
-    var pushUp = upperCasedCharacters[upValue];
-    mustHaveChars.push(pushUp);
-  }
-  if (UserOptions.lowerCase === true) {
-    var lowValue = Math.floor(Math.random()* 26);
-    var pushLow = lowerCasedCharacters[lowValue];
-    mustHaveChars.push(pushLow);
-  }
-  if (UserOptions.numericCharacter === true) {
-    var numValue = Math.floor(Math.random()* 10);
-    var pushNum = numericCharacters[numValue];
-    mustHaveChars.push(pushNum);
-  }
-  if (UserOptions.specialCharacter === true) {
-    var specValue = Math.floor(Math.random()* 23);
-    var pushSpec = specialCharacters[specValue];
-    mustHaveChars.push(pushSpec);
-  }
-
+  // for loop to determine the length of password generating array, based on length creating funcion.
   let integerPush = "";
   for (let i = 0; i < arraySize; i++) {
     integerPush = i;
     potentialChars.push(integerPush);
   }
-  console.log(mustHaveChars);
+  
+  passwordArray.push(potentialChars);
   console.log(potentialChars);
+  
+  console.log(mustHaveChars);
+  
+  passwordArray.splice(0, arraySize, mustHaveChars);
+  console.log(passwordArray);
 
+  
 
+  // returns value for password array created through user options, and pushed random character values.
+  // still leaves array in comma sectioned array form when using .join method
+  return passwordArray.join(" ");
 
 }
 
